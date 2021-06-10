@@ -1,13 +1,21 @@
 $( document ).ready(function() {
   function updateReading() {
     $.getJSON("https://openmeter.discovergy.com/public/v1/last_reading?meterId=gAAAAABgweArYEenb7mZW7CG284ahZtWTHV-CzaT_ck-IvtiLfjZDGujV-XZX0ya91_DHb0S2yV2l58rilHjPm5cEe-kdgY_vcBvvBWy6bx1-Pn42pdl7Wm45bQgSGaRDQdlH2zHP7QB&nonece="+new Date().getTime(),function(data) {
-      $('#metervalue').val(Math.round(data.values.energy/100000));
+      $('#reading').val(Math.round(data.values.energy/100000));
       $('#timeReading').html(new Date(data.time).toLocaleString());
-      console.log(data);
+      sessionStorage.setItem('LastAction', "MeterValues");
+      var val = $("#reading").val();
+      var MV = JSON.stringify([2, id, "MeterValues", {"connectorId": 1, "transactionId": ssid, "meterValue": [{"timestamp": formatDate(new Date()), "sampledValue": [{"value": val}]}]}]);
+      _websocket.send(MV);
     });
   }
+
+  $('#kwh1').click(function() {
+      $('#bezug').val(($('#bezug').val()*1) + (1000 *1));
+      $('#reading').val(($('#reading').val()*1) + (1000 *1));
+  });
+
   updateReading();
-  setInterval(updateReading,60100);
 
   var c = 0;
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -63,7 +71,7 @@ $( document ).ready(function() {
               sessionStorage.setItem('LastAction', "BootNotification");
               $('#yellow').show();
               BootNotification();
-
+              updateReading();
               $('#connect').text('Disconnect').css('background', 'green');
 
           };
@@ -185,7 +193,7 @@ $( document ).ready(function() {
           "connectorId": 2,
           "idTag": $("#TAG").val(),
           "timestamp": formatDate(new Date()),
-          "meterStart": 0,
+          "meterStart": $('#reading').val(),
           "reservationId": 0
       }]);
       _websocket.send(strtT);
@@ -202,7 +210,7 @@ $( document ).ready(function() {
           "transactionId": ssid,
           "idTag": $("#TAG").val(),
           "timestamp": formatDate(new Date()),
-          "meterStop": 20
+          "meterStop": $('#reading').val()
       }]);
       _websocket.send(stpT);
   }
@@ -279,7 +287,7 @@ $( document ).ready(function() {
 
     $('#mv').click(function () {
         sessionStorage.setItem('LastAction', "MeterValues");
-        var val = $("#metervalue").val();
+        var val = $("#reading").val();
         var MV = JSON.stringify([2, id, "MeterValues", {"connectorId": 1, "transactionId": ssid, "meterValue": [{"timestamp": formatDate(new Date()), "sampledValue": [{"value": val}]}]}]);
         _websocket.send(MV);
 

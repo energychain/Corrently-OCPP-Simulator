@@ -38,10 +38,11 @@
                     <div class="btn-group" role="group"></div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-4">
                 <h3>Messstelle</h3>
-                <div class="input-group"><span class="input-group-text">Zählerstand</span><input class="form-control" type="text" id="metervalue"><span class="input-group-text">Wh</span></div>
-                <p id="timeReading" class="font-monospace">-</p>
+                <div class="input-group"><span class="input-group-text">Zählerstand</span><input class="form-control" type="text" id="reading"><span class="input-group-text">Wh</span></div>
+                <div class="input-group" style="margin-top: 5px;"><span class="input-group-text">Bezug</span><input class="form-control" type="text" id="bezug" value="0"><span class="input-group-text">Wh</span></div>
+                <p id="timeReading" class="font-monospace">-</p><button class="btn btn-secondary" id="kwh1" type="button" style="margin: 5px;">1 kWH Verbrauch simulieren</button>
             </div>
             <div class="col">
                 <h3>Status</h3>
