@@ -3,10 +3,14 @@ $( document ).ready(function() {
     $.getJSON("https://openmeter.discovergy.com/public/v1/last_reading?meterId=gAAAAABgweArYEenb7mZW7CG284ahZtWTHV-CzaT_ck-IvtiLfjZDGujV-XZX0ya91_DHb0S2yV2l58rilHjPm5cEe-kdgY_vcBvvBWy6bx1-Pn42pdl7Wm45bQgSGaRDQdlH2zHP7QB&nonece="+new Date().getTime(),function(data) {
       $('#reading').val(Math.round(data.values.energy/100000));
       $('#timeReading').html(new Date(data.time).toLocaleString());
-      sessionStorage.setItem('LastAction', "MeterValues");
       var val = $("#reading").val();
+      try {
+      sessionStorage.setItem('LastAction', "MeterValues");
       var MV = JSON.stringify([2, id, "MeterValues", {"connectorId": 1, "transactionId": ssid, "meterValue": [{"timestamp": formatDate(new Date()), "sampledValue": [{"value": val}]}]}]);
       _websocket.send(MV);
+      } catch(e) {
+
+      }
     });
   }
 
