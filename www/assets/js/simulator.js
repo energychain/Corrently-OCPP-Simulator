@@ -1,6 +1,6 @@
 $( document ).ready(function() {
   function updateReading() {
-    $.getJSON("https://openmeter.discovergy.com/public/v1/last_reading?meterId=gAAAAABgsYVSw5Fs2ekA_SCFavt_k2H9llKM2sXlsRGzAVn34ADDndrP7HGExafYzSnwUcT_rwwht2Y-6TQpDu7xf7nlnAyYWYFPNLNk3wd0RrGbZoq7Yj5FrywyICuOE3AkO7t7wgk2&nonece="+new Date().getTime(),function(data) {
+    $.getJSON("https://openmeter.discovergy.com/public/v1/last_reading?meterId=gAAAAABgweArYEenb7mZW7CG284ahZtWTHV-CzaT_ck-IvtiLfjZDGujV-XZX0ya91_DHb0S2yV2l58rilHjPm5cEe-kdgY_vcBvvBWy6bx1-Pn42pdl7Wm45bQgSGaRDQdlH2zHP7QB&nonece="+new Date().getTime(),function(data) {
       $('#metervalue').val(Math.round(data.values.energy/100000));
       $('#timeReading').html(new Date(data.time).toLocaleString());
       console.log(data);
